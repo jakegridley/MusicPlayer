@@ -10,7 +10,6 @@ import java.io.File;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -26,9 +25,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
@@ -39,7 +36,9 @@ public class UI extends Application {
 
 	private BorderPane bPane = new BorderPane();
 	private ScrollPane userPane = new ScrollPane();
+	private VBox userLib = new VBox();
 	private ScrollPane mainPane = new ScrollPane();
+	private VBox mainLib = new VBox();
 	private GridPane controlPanel = new GridPane();
 	private Button playButton = new Button("Play");
 	private Button pauseButton = new Button("Pause");
@@ -53,37 +52,20 @@ public class UI extends Application {
 	private Media media = new Media(new File(songPath).toURI().toString());
 	private MediaPlayer mediaPlayer = new MediaPlayer(media);
 
+	@SuppressWarnings("exports")
 	@Override
 	public void start(Stage s) {
 		// set title for the stage
 		s.setTitle("Music Player");
-
-		// sets Scroll Pane size
-		mainPane.setPrefSize(200, 400);
-		userPane.setPrefSize(200, 400);
-
-		// create a label
-		Label userLabel = new Label("User's Library");
-		Label mainLibraryLabel = new Label("Main Library");
 		
-
-		userPane.setContent(userLabel);
-		userPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		
-		mainPane.setContent(mainLibraryLabel);
-		mainPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		
-		
+		setUp();
 		songControl();	
 		
 		
 		mediaPlayer.play(); // starts playing song
 		mediaPlayer.setVolume(0.2); // initial volume setting
 		
-		bPane.setLeft(userPane);
-		bPane.setRight(mainPane);
-		bPane.setBottom(controlPanel);
-		bPane.setCenter(status);
+		
 		
 		
 		
@@ -120,6 +102,33 @@ public class UI extends Application {
 		// launch the application
 		launch(args);
 	}
+	
+	private void setUp() { 
+		// sets Scroll Pane size
+		mainPane.setPrefSize(200, 400);
+		userPane.setPrefSize(200, 400);
+		userLib.setPadding(new Insets(10));
+		mainLib.setPadding(new Insets(10));
+
+		// create a label
+		Label userLabel = new Label("User's Library");
+		Label mainLibraryLabel = new Label("Main Library");
+
+		
+		userLib.getChildren().add(userLabel);
+		userPane.setContent(userLabel);
+		userPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
+		
+		mainLib.getChildren().add(mainLibraryLabel);
+		mainPane.setContent(mainLibraryLabel);
+		mainPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		
+		bPane.setLeft(userPane);
+		bPane.setRight(mainPane);
+		bPane.setBottom(controlPanel);
+		bPane.setCenter(status);
+	}
 
 	/*
 	 * Sets up and places the buttons and sliders that control the songs
@@ -133,6 +142,8 @@ public class UI extends Application {
 		controlPanel.setAlignment(Pos.BOTTOM_CENTER);
 		
 	    Label vol = new Label("Volume");
+	    //Duration length = media.getDuration();
+	    //double timeX = length.toSeconds();
 	    Label songLen = new Label("Song Len");
         
 		
@@ -155,6 +166,9 @@ public class UI extends Application {
 		controlPanel.add(volume, 3, 1, 1, 1);
 		controlPanel.add(vol, 3, 2);
 		controlPanel.add(songLen,0,2);
+		
+		
+		//controlPanel.setStyle("-fx-background-color: #336699;");
 	}
 	
 	
@@ -175,7 +189,11 @@ public class UI extends Application {
 	EventHandler<ActionEvent> prevButtonEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
         	status.setText("Song Status: Previous");
-        	mediaPlayer.pause();
+        	String song = new String("C:\\Users\\caitl\\Documents\\UA\\Computer Science\\"
+        			+ "CS 335\\components\\src\\main\\java\\Assignment\\components\\STAR WALKIN'.mp3");
+        	Media media = new Media(new File(song).toURI().toString());
+        	mediaPlayer = new MediaPlayer(media);
+        	mediaPlayer.play();
         	
         }
 	};
@@ -206,11 +224,4 @@ public class UI extends Application {
         	mediaPlayer.pause();
         }
 	};
-	
-	
-	
-	
-	
-	
-
 }
