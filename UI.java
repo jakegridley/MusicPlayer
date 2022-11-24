@@ -13,12 +13,14 @@ import javafx.scene.media.MediaPlayer;
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -35,10 +37,12 @@ import javafx.stage.Stage;
 public class UI extends Application {
 
 	private BorderPane bPane = new BorderPane();
+	
 	private ScrollPane userPane = new ScrollPane();
 	private VBox userLib = new VBox();
 	private ScrollPane mainPane = new ScrollPane();
 	private VBox mainLib = new VBox();
+	
 	private GridPane controlPanel = new GridPane();
 	private Button playButton = new Button("Play");
 	private Button pauseButton = new Button("Pause");
@@ -46,12 +50,19 @@ public class UI extends Application {
 	private Button skipButton = new Button("Skip");
 	private Slider time = new Slider(); 
     private Slider volume = new Slider(0,100,100);
-	private Label status = new Label("Song status: Playing");
+    
+    private GridPane menuBar = new GridPane();
+    private ChoiceBox<String> userList = new ChoiceBox<String>();
+    
+    
+	private Label status = new Label("Song status: Playing \n Star Walkin by Lil Nas X");
 	private String songPath = new String("C:\\Users\\caitl\\Documents\\UA\\Computer Science\\"
 			+ "CS 335\\components\\src\\main\\java\\Assignment\\components\\STAR WALKIN'.mp3");
 	private Media media = new Media(new File(songPath).toURI().toString());
 	private MediaPlayer mediaPlayer = new MediaPlayer(media);
 
+	
+	
 	@SuppressWarnings("exports")
 	@Override
 	public void start(Stage s) {
@@ -60,6 +71,7 @@ public class UI extends Application {
 		
 		setUp();
 		songControl();	
+		menuControl();
 		
 		
 		mediaPlayer.play(); // starts playing song
@@ -114,16 +126,17 @@ public class UI extends Application {
 		Label userLabel = new Label("User's Library");
 		Label mainLibraryLabel = new Label("Main Library");
 
-		
+		// adds labels to scroll panes
 		userLib.getChildren().add(userLabel);
 		userPane.setContent(userLabel);
 		userPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-		
 		mainLib.getChildren().add(mainLibraryLabel);
 		mainPane.setContent(mainLibraryLabel);
 		mainPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		
+		
+		// adds different panes to main pane
 		bPane.setLeft(userPane);
 		bPane.setRight(mainPane);
 		bPane.setBottom(controlPanel);
@@ -146,15 +159,12 @@ public class UI extends Application {
 	    //double timeX = length.toSeconds();
 	    Label songLen = new Label("Song Len");
         
-		
 
 		// sets button size
 		playButton.setPrefSize(100, 20);
 		prevButton.setPrefSize(100, 20);
 		skipButton.setPrefSize(100, 20);
 		pauseButton.setPrefSize(100,20);
-		
-		
 		
 		
 		//adds buttons and sliders to the gridPane
@@ -172,12 +182,25 @@ public class UI extends Application {
 	}
 	
 	
+	private void menuControl() { 
+		bPane.setTop(userList);
+		String one = "BTS";
+		String two = "TXT";
+		String three = "GOT7";
+		userList.setValue(one);
+		userList.setValue(two);
+		userList.setValue(three);
+		
+		
+		
+	}
+	
 	/*
 	 * Handles events when the play button is pressed
 	 */
 	EventHandler<ActionEvent> playButtonEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
-        	status.setText("Song Status: Playing");
+        	status.setText("Song Status: Playing ");
         	mediaPlayer.play();
         	
         }
@@ -188,7 +211,8 @@ public class UI extends Application {
 	 */
 	EventHandler<ActionEvent> prevButtonEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
-        	status.setText("Song Status: Previous");
+        	status.setText("Song Status: Previous \n Star Walkin by Lil Nas X");
+        	mediaPlayer.stop();
         	String song = new String("C:\\Users\\caitl\\Documents\\UA\\Computer Science\\"
         			+ "CS 335\\components\\src\\main\\java\\Assignment\\components\\STAR WALKIN'.mp3");
         	Media media = new Media(new File(song).toURI().toString());
@@ -204,7 +228,8 @@ public class UI extends Application {
 	 */
 	EventHandler<ActionEvent> skipButtonEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
-        	status.setText("Song Status: Next Song");
+        	status.setText("Song Status: Next Song \n Forrest, by Twenty One Pilots");
+        	mediaPlayer.stop();
         	
         	// next song in queue
         	String song = new String("C:\\Users\\caitl\\Documents\\UA\\Computer Science\\"
