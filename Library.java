@@ -1,4 +1,4 @@
-package MusicPlayer.cs335;
+package finalAssignment;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -55,6 +55,11 @@ public class Library {
 		
 	}
 	
+	
+	public void clear() {
+		songs = new ArrayList<Song>();
+	}
+	
 	public void sortByName() {
 		songs.sort(Comparator.comparing(Song::getName));
 	}
@@ -65,6 +70,10 @@ public class Library {
 	
 	public void sortByDate() {
 		songs.sort(Comparator.comparing(Song::getReleaseDate));
+	}
+
+	public boolean contains(Song currentSong) {
+		return songs.contains(currentSong);
 	}
 	
 	

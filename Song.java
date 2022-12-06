@@ -1,4 +1,4 @@
-package MusicPlayer.cs335;
+package finalAssignment;
 
 public class Song {
 
@@ -8,6 +8,7 @@ public class Song {
 	private String imageName;
 	private String releaseDate;
 	private String location;
+	private String displayable;
 	
 	
 	public Song(String name, String artist, String genre, String releaseDate,
@@ -19,6 +20,7 @@ public class Song {
 		this.releaseDate = releaseDate;
 		this.imageName = imageName;
 		this.location = location;
+		this.displayable = name + " ," + artist +" ," + releaseDate;
 	
 	}
 	
@@ -46,7 +48,12 @@ public class Song {
 	public String getLocation() {
 		return this.location;
 	}
-
+	
+	public String toString() {
+		return this.displayable;
+	}
+	
+	
 	
 	
 }
