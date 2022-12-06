@@ -1,3 +1,7 @@
+/* 
+ * Author: Ariel Garcia & Gang Shi
+ */
+
 package finalAssignment;
 
 import kong.unirest.HttpResponse;
@@ -74,7 +78,7 @@ public class TestClassSongSearch {
 			mp3Link = (String) responseSong.getBody().getObject().get("preview_url");
 			
 			///// Add song to Main Library /////
-			Song songToAdd = new Song(name, artist, "null", releaseDate, imageLink, mp3Link);
+			Song songToAdd = new Song(name, artist, releaseDate, imageLink, mp3Link);
 			libToUpdate.addSong(songToAdd);
 		 }
 	} 
